@@ -2,7 +2,7 @@ import { Component } from 'react';
 // import { searchImages } from 'Servise/Api';
 import Searchbar from './Searchbar';
 import Loader from './Loader';
-import Modal from './Modal';
+// import Modal from './Modal';
 // import { ToastContainer } from 'react-toastify';
 
 export class App extends Component {
