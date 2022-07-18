@@ -19,16 +19,18 @@ export class Modal extends Component {
     }
   };
 
-  handleBackdropClick = event => {
-    if (event.currentTarget === event.target) {
-      this.props.onModalClose();
-    }
-  };
+  // handleBackdropClick = event => {
+  //   if (event.currentTarget === event.target) {
+  //     this.props.onModalClose();
+  //   }
+  // };
+
+  // onClick={() => handleBackdropClick()}
 
   render() {
     const { largeImage } = this.props;
     return createPortal(
-      <div className={style.overlay} onClick={() => handleBackdropClick()}>
+      <div className={style.overlay}>
         <div className={style.modal}>
           <img src={largeImage} alt="" />
         </div>
