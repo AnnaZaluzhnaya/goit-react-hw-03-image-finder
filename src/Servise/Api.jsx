@@ -4,7 +4,7 @@ import axios from 'axios';
 const KEY = '27631880-b0639dc61f111cbc90b791bd4';
 const BASE_URL = `https://pixabay.com/api/?&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`;
 
-const searchImages = async (query, page) => {
+export const searchImages = async (query, page) => {
   const response = await axios.get(`${BASE_URL}&q=${query}&page=${page}`);
 
   if (!response.ok) {
@@ -18,5 +18,3 @@ searchImages.PropTypes = {
   query: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
 };
-
-export default searchImages;
