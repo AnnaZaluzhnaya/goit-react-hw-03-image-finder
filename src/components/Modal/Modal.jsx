@@ -15,22 +15,22 @@ export class Modal extends Component {
 
   handleKeyDown = event => {
     if (event.code === 'Escape') {
-      this.props.onModalClose();
+      this.props.closeModal();
     }
   };
 
   handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onModalClose();
+      this.props.closeModal();
     }
   };
 
   render() {
-    const { largeImage } = this.props;
+    const { largeImageUrl } = this.props;
     return createPortal(
       <div className={style.overlay} onClick={this.handleBackdropClick}>
         <div className={style.modal}>
-          <img src={largeImage} alt="" />
+          <img src={largeImageUrl} alt="" />
         </div>
       </div>,
       modalRoot

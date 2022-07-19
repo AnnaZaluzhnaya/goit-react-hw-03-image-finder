@@ -4,7 +4,7 @@ import { searchImages } from '../Servise/Api';
 import Searchbar from './Searchbar';
 import Loader from './Loader';
 import ImageGallery from './ImageGallery';
-// import Modal from './Modal';
+import Modal from './Modal';
 import Button from './Button';
 
 const perPage = 12;
@@ -13,12 +13,12 @@ export class App extends Component {
     page: 1,
     images: [],
     query: '',
-    // largeImage: '',
-    // isShowModal: false,
+    largeImageUrl: '',
     status: 'idle',
     isShowBtn: false,
     total: 0,
     loading: false,
+    totalImages: 0,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -34,7 +34,7 @@ export class App extends Component {
 
         if (data.total > perPage) {
           this.setState({ isShowBtn: true });
-        } else if (data.total <= images.length + perPage) {
+        } else if (data.total >= images.length + perPage) {
           this.setState({ isShowBtn: false });
           Notiflix.Notify.info(
             "We're sorry, but you've reached the end of search results."
@@ -62,40 +62,42 @@ export class App extends Component {
     this.setState({ query, page: 1, images: [] });
   };
 
-  // onModalOpen = largeImage => {
-  //   this.state({
-  //     largeImage: largeImage,
-  //   });
-  // };
+  openModal = largeImageUrl => {
+    this.setState({
+      largeImageUrl: largeImageUrl,
+    });
+  };
 
-  // onModalClose = () => {
-  //   this.state({
-  //     largeImage: '',
-  //   });
-  // };
+  closeModal = () => {
+    this.setState({
+      largeImageUrl: '',
+    });
+  };
 
   onMoreBtn = () => {
-    this.setState(({ page }) => {
+    this.setState(({ page, total }) => {
       return {
         page: page + 1,
+        total: total + perPage,
       };
     });
   };
 
   render() {
-    const { images, isShowBtn, loading, total } = this.state;
+    const { images, isShowBtn, loading, total, largeImageUrl } = this.state;
     const totalImg = images.length >= total;
+
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
         {images.length !== 0 && (
-          <ImageGallery images={images} onClickModalOpen={this.onModalOpen} />
+          <ImageGallery images={images} openModal={this.openModal} />
         )}
 
-        {/* {isShowModal && (
-          <Modal largeImage={largeImage} onModalClose={this.onModalClose} />
-        )} */}
+        {largeImageUrl && (
+          <Modal largeImageUrl={largeImageUrl} closeModal={this.closeModal} />
+        )}
         {(!totalImg || isShowBtn) && <Button onMoreBtn={this.onMoreBtn} />}
 
         {loading && <Loader />}
