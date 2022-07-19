@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 import style from './Modal.module.css';
+import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById('modal-root');
 export class Modal extends Component {
@@ -37,5 +38,10 @@ export class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  largeImageUrl: PropTypes.string.isRequired,
+  handleBackdropClick: PropTypes.func.isRequired,
+};
 
 export default Modal;
