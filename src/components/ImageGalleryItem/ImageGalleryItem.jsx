@@ -1,13 +1,9 @@
 import style from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ webformatURL, onClickModal, tags }) => {
+const ImageGalleryItem = ({ webURL, onClick, tags }) => {
   return (
-    <li className={style.ImageGalleryItem} onClick={onClickModal}>
-      <img
-        className={style.ImageGalleryItemImage}
-        src={webformatURL}
-        alt={tags}
-      />
+    <li className={style.ImageGalleryItem} onClick={onClick}>
+      <img className={style.ImageGalleryItemImage} src={webURL} alt={tags} />
     </li>
   );
 };
