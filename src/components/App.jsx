@@ -17,7 +17,7 @@ export class App extends Component {
     query: '',
     largeImageUrl: '',
     status: 'idle',
-    isShowBtn: false,
+    showLoadMoreButton: false,
     total: 0,
     loading: false,
     totalImages: 0,
@@ -35,10 +35,9 @@ export class App extends Component {
         }
 
         if (data.total > images.length + perPage) {
-          this.setState({ isShowBtn: true });
-          // this.scrollOnLoadButton();
+          this.setState({ showLoadMoreButton: true });
         } else if (images.length + perPage >= data.total) {
-          this.setState({ isShowBtn: false });
+          this.setState({ showLoadMoreButton: false });
           Notiflix.Notify.info(
             "We're sorry, but you've reached the end of search results."
           );
@@ -52,7 +51,7 @@ export class App extends Component {
         Notiflix.Notify.failure(
           'There are no images for your request.Please try again.'
         );
-        this.setState({ loading: false, isShowBtn: false });
+        this.setState({ loading: false, showLoadMoreButton: false });
       }
     }
   }
@@ -74,11 +73,12 @@ export class App extends Component {
   };
 
   onMoreBtn = () => {
+    const { images } = this.state;
     this.scrollOnMoreButton();
-    this.setState(({ page, total }) => {
+    this.setState(({ page }) => {
       return {
         page: page + 1,
-        total: total + perPage,
+        total: images.length + perPage,
       };
     });
   };
@@ -93,7 +93,7 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isShowBtn, loading, largeImageUrl } = this.state;
+    const { images, showLoadMoreButton, loading, largeImageUrl } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSubmit} />
@@ -105,14 +105,14 @@ export class App extends Component {
           </p>
         )}
 
-        {images.length !== 0 && (
+        {images.length > 0 && (
           <ImageGallery images={images} openModal={this.openModal} />
         )}
 
         {largeImageUrl && (
           <Modal largeImageUrl={largeImageUrl} closeModal={this.closeModal} />
         )}
-        {isShowBtn && <Button onMoreBtn={this.onMoreBtn} />}
+        {showLoadMoreButton && <Button onMoreBtn={this.onMoreBtn} />}
 
         {loading && <Loader />}
       </div>
